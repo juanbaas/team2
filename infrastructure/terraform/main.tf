@@ -1,6 +1,6 @@
 
 #We create our Datas to be able to use kubernetes provider
-data "azurerm_resource_group" "rg" {
+/*data "azurerm_resource_group" "rg" {
   name = "ProjectDOU"
 }
 data "azurerm_kubernetes_cluster" "example" {
@@ -8,10 +8,6 @@ data "azurerm_kubernetes_cluster" "example" {
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
-provider "azurerm" {
-  features {}
-  skip_provider_registration = true
-}
 
 provider "helm" {
   kubernetes {
@@ -20,21 +16,25 @@ provider "helm" {
     client_key             = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.client_key)}"
     cluster_ca_certificate = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.cluster_ca_certificate)}"
   }
+}*/
+provider "azurerm" {
+  features {}
+  skip_provider_registration = true
 }
 
-provider "kubernetes" {
+/*provider "kubernetes" {
   host                   = "${data.azurerm_kubernetes_cluster.example.kube_config.0.host}"
   client_certificate     = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.client_certificate)}"
   client_key             = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.client_key)}"
   cluster_ca_certificate = "${base64decode(data.azurerm_kubernetes_cluster.example.kube_config.0.cluster_ca_certificate)}"
-}
+}*/
 
 terraform {
   backend "azurerm" {
-    resource_group_name  = "ProjectDOU"
-    storage_account_name = "projectstoragedou"
-    container_name       = "projectcontainerdou"
-    key                  = "prod.terraform.projectcontainerdou"
+    resource_group_name  = "juan-baas"
+    storage_account_name = "storagejuanbaas"
+    container_name       = "juanbaas"
+    key                  = "tfstate"
   }
 }
 
@@ -50,7 +50,7 @@ module "acr" {
   source              = "./modules/acr"
   prefix              = var.prefix
   location            = var.location
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = "juan-baas"
 }
 
 #Azure Kubernetes Cluster Service
@@ -63,11 +63,11 @@ module "aks" {
   node_count          = var.node_count
   vm_size             = var.vm_size
   os_disk_size_gb     = var.os_disk_size_gb
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = "juan-baas"
 }
 
 #Helm
-module "helm" {
+/*module "helm" {
   source                 = "./modules/helm"
   prefix                 = var.prefix
   location               = var.location
@@ -75,7 +75,7 @@ module "helm" {
   client_secret          = var.client_secret
   node_count             = var.node_count
   resource_group_name    = data.azurerm_resource_group.rg.name
-}
+}*/
 
 #Creation of load balancer to add a little extra
 module "load_balancer" {
@@ -83,7 +83,7 @@ module "load_balancer" {
   public_ip_address_id = module.public_ip.id
   location             = var.location
   prefix               = var.prefix
-  resource_group_name  = data.azurerm_resource_group.rg.name
+  resource_group_name  = "juan-baas"
 }
 
 #We need a public IP to access our server
@@ -91,5 +91,5 @@ module "public_ip" {
   source              = "./modules/public_ip"
   prefix              = var.prefix
   location            = var.location
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = "juan-baas"
 }
