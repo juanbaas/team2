@@ -6,7 +6,7 @@ variable "location" {
 }
 
 
-variable "client_id" {
+/*variable "client_id" {
   description = "Service Principal client id"
   type        = string
   sensitive   = true
@@ -16,7 +16,7 @@ variable "client_secret" {
   description = "Service Principal client secret (password)"
   type        = string
   sensitive   = true
-}
+}*/
 
 
 variable "node_count" {
