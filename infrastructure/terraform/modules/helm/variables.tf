@@ -1,31 +1,31 @@
 variable "prefix" {
   description = "A prefix used for all resources in this example"
-  type = string
+  type        = string
 }
 
 variable "location" {
   description = "The Azure Region in which all resources in this example should be provisioned"
-  type = string
+  type        = string
 }
 
 variable "resource_group_name" {
   description = "Resource Group Name"
-  type = string
+  type        = string
 }
 
 variable "client_id" {
   description = "Service Principal client id"
-  type = string
+  type        = string
 }
 
 variable "client_secret" {
   description = "Service Principal client secret (password)"
-  type = string
+  type        = string
 }
 
 variable "node_count" {
   description = "Number of nodes for the Kubernetes cluster"
-  type = number
+  type        = number
 }
 
 variable "ns_name" {
